@@ -47,14 +47,40 @@ describe('ListItem', () => {
     });
     
     //TODO: implement this
-    it('callback is called', () => {});
+    it("callback is called", () => {
+        const onCheck = jest.fn();
+        const item = "Test item";
+        const id = "test-id";
+        const checkable = true;
+        render(
+          <ListItem onCheck={onCheck} item={item} id={id} checkable={checkable} />
+        );
+        const checkbox = screen.getByTestId(`test-${id}`);
+        fireEvent.click(checkbox);
+        expect(onCheck).toHaveBeenCalledTimes(1);
+      });
 
     //TODO: implement this
-    it('callback is not called when not checkable', () => {});
+    it('callback is not called when not checkable', () => {
+        const checked =jest.fn();
+        const testItem = "Test item";
+        const testId = "test-id";
+        const checkable = false;
+        render(
+            <ListItem onCheck={checked} item={testItem} id={testId} checkable={checkable} />
+          );
+      
+          fireEvent.click(screen.getByTestId(`test-${id}-container`), {
+            target: { checked: true },
+          });
+          expect(checked).not.toHaveBeenCalled();
+        });
+
+   
 
     //TODO: implement this
     it('matches saved snapshot', () => {
-        const tree = render(
+        const saved = render(
             <ListItem
                 id='list-item-test'
                 checkable={true}
@@ -62,6 +88,6 @@ describe('ListItem', () => {
                 item='Lorem ipsum dolor sit amet consectetur'
             />
         );
-        expect(tree).toMatchSnapshot();
+        expect(saved).toMatchSnapshot();
     });
 });
